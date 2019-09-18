@@ -1,7 +1,4 @@
 ---
-- name: include secret vars
-  include_vars: secret.yml
-
 - name: set hostname
   hostname:
     name: "{{ hostname }}"
@@ -34,12 +31,15 @@
     opts: defaults,size=32m,noatime,mode=1777
     state: present
 
+- debug: var=ansible_swaptotal_mb
+
 # 'swap' turn off because swap put a strain on SD card.
-- name: swapoff
-  script: swapoff.sh
-  register: result
-  changed_when: result.rc == 254
-  failed_when: result.rc not in [0, 254]
+- name: Disable swap
+  shell: >
+    dphys-swapfile swapoff &&
+    dphys-swapfile uninstall &&
+    update-rc.d -f dphys-swapfile remove
+  when: ansible_swaptotal_mb > 0
 
 # disable swap service after reboot
 - name: disable swap service
