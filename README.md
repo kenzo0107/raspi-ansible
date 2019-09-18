@@ -2,6 +2,18 @@
 
 This Ansible project provides initial setting for RaspberryPI.
 
+## set inventory
+
+inventories/local
+```
+[raspberrypi]
+192.168.11.50
+
+[raspberrypi:vars]
+ansible_port=12345
+ansible_user=pi
+```
+
 ## check communication acknowledgement from remote
 
 ```bash
