@@ -5,7 +5,7 @@ This Ansible project provides initial setting for RaspberryPI.
 ## set inventory
 
 inventories/local
-```
+```bash
 [raspberrypi]
 192.168.11.50
 
