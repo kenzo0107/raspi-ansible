@@ -1,0 +1,5 @@
+ansible.cfg
+.vault_password
+*.retry
+inventories/*
+!inventories/.gitkeep

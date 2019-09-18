@@ -1,0 +1,12 @@
+---
+dist: xenial
+language: python
+python:
+  - '3.7'
+cache: pip
+script:
+  - ansible-lint playbook.yml
+notifications:
+  email: false
+  slack:
+    secure: IoNXOsK2NO73a8dWVQ4DVxBee0oYKGzQ7p5Lfv7EK+Wnk9yHmpxcbX1ZtG4C3YGNHHAIdaw0b/Qk9aPO6H72xZXtI7/arzxUYpphYB+T5STU++D/+v8U+Sm2rydkVWojdm+fSRtCbfDTDJ09bwe1IfMQWgwaEkMDEzfx03LxFxTVeplfUhTcr7axQdUrYg45yeJbtZk4YWJDlZWUyoZUv3wOav5rtL3MrwndponRT3/ybsKUQR53JCdXCUu/LdnT7GVqQfjnPQAtuVPnKb/cq+weSKXt4ZjFfVXaKn5mDBOccuUIrx1MFRu/hpuQmgoz5pEZ9JXOJq41PY9nsdTIJSUqwo1p71ekuzZ1rzfYAWXvOTIcEm3wfLZ7e5Jv+9LHu1hQ8uu2KaKcSwsB/59zbGFopjiKJw/OSwKKfZTSOW3U1iwklPZ3A2wkh4c5gsX/U11YNkAW7hPiCcIzyLr6FnAdcIJ5jxv/ZdFoAbEuCMuC8LLEtGBIqG78+bCrBgKX2JLjdN4hbQCXY5C8+GqXxHv6O1OuWb/hWA9Jaq1oStE8QfpgDLWjS4lh5JYPGAKKMKVeCDj5cH6EtD6nvxIY67HTmqOGSUYMAbQl3Mrr2scwaodz5fscmzIiEXG4SyImB9Qv1ezAPnYalbIvar/06gjbX0+EjIDHPGQHONCT8Vs=
