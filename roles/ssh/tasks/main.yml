@@ -1,0 +1,34 @@
+---
+- block:
+
+  - name: copy sshd_config
+    template:
+      src: sshd_config.j2
+      dest: /etc/ssh/sshd_config
+      owner: root
+      group: root
+      mode: 0644
+      backup: yes
+    notify:
+      - restart sshd
+
+  - name: remove /etc/ssh/ssh_host_ecdsa_key.pub
+    file:
+      dest: /etc/ssh/ssh_host_ecdsa_key.pub
+      state: absent
+  - name: remove /etc/ssh/ssh_host_ecdsa_key
+    file:
+      dest: /etc/ssh/ssh_host_ecdsa_key
+      state: absent
+  - name: remove /etc/ssh/ssh_host_dsa_key.pub
+    file:
+      dest: /etc/ssh/ssh_host_dsa_key.pub
+      state: absent
+  - name: remove /etc/ssh/ssh_host_dsa_key
+    file:
+      dest: /etc/ssh/ssh_host_dsa_key
+      state: absent
+
+  tags:
+    - construct
+    - sshd
