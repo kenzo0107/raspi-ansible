@@ -1,7 +1,10 @@
 ---
-- name: restart sshd
+
+# os jessie: ssh <-
+# os buster: sshd
+- name: restart ssh
   become: yes
   systemd:
-    name: sshd
+    name: ssh
     state: restarted
     enabled: yes
