@@ -4,30 +4,23 @@ This Ansible project provides initial setting for RaspberryPI.
 
 ## set inventory
 
-inventories/local
+inventories/init
 ```bash
 [raspberrypi]
-192.168.11.50
+raspberry.local
 
 [raspberrypi:vars]
-ansible_port=12345
+ansible_port=22
 ansible_user=pi
 ```
 
-## check communication acknowledgement from remote
+## initial set up
 
 ```bash
-ansible -i inventories/<hoge> raspberrypi -m ping (--ask-pass)
-```
+// dry-run
+$ ansible -i inventories/init raspberrypi -m ping --ask-pass -C
+SSH password: <enter your password>
 
-## dryrun playbook
-
-```bash
-ansible-playbook -i inventories/<hoge> raspi3modelb.yml -C (--ask-pass)
-```
-
-## run playbook
-
-```bash
-ansible-playbook -i inventories/<hoge> raspi3modelb.yml (--ask-pass)
+// run
+$ ansible -i inventories/init raspberrypi -m ping --ask-pass
 ```
