@@ -1,0 +1,34 @@
+---
+- name: stat n
+  stat:
+    path: /usr/local/bin/n
+  register: n
+
+- block:
+  - name: install temp node
+    apt:
+      name: nodejs
+      update_cache: yes
+  - name: install temp npm
+    apt:
+      name: npm
+  - name: install n
+    npm:
+      name: n
+      global: yes
+  - name: install node by n
+    command: n stable
+  - name: remove temp node
+    apt:
+      name: nodejs
+      state: absent
+  - name: remove temp npm
+    apt:
+      name: npm
+      state: absent
+  when: not n.stat.exists
+
+# - name: install yarn
+#   npm:
+#     name: yarn
+#     global: yes
