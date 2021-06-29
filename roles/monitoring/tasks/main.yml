@@ -1,0 +1,24 @@
+---
+- name: include secret vars
+  include_vars: secret.yml
+
+- name: install mackerel-agent
+  shell: |
+    curl -O https://mackerel.io/file/agent/deb/mackerel-agent_latest.all.deb
+    dpkg -i mackerel-agent_latest.all.deb
+    curl -LOk https://github.com/mackerelio/mackerel-agent/releases/download/v0.42.3/mackerel-agent_linux_arm.tar.gz
+    tar zxf mackerel-agent_linux_arm.tar.gz
+    cp mackerel-agent_linux_arm/mackerel-agent /usr/bin
+  args:
+    creates: /etc/mackerel-agent/mackerel-agent.conf
+
+- name: mackerel-agent conf
+  lineinfile: dest=/etc/mackerel-agent/mackerel-agent.conf
+    line='{{ item.line }}'
+    regexp='{{ item.regexp }}'
+  with_items:
+    - {
+        line: 'apikey="{{ mackerel_apikey }}"',
+        regexp: '^apikey="{{ mackerel_apikey }}"',
+      }
+  notify: restart mackerel-agent
