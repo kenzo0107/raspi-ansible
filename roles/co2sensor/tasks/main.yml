@@ -1,0 +1,35 @@
+---
+# enable UART and reboot
+- name: enable UART
+  ansible.builtin.lineinfile:
+    path: /boot/config.txt
+    line: enable_uart=1
+    create: yes
+
+- name: pip install packages
+  pip:
+    name:
+      - mh_z19
+
+- name: create directory /opt/co2sensor
+  file:
+    path: /opt/co2sensor
+    state: directory
+
+- name: mackerel co2 plugin
+  copy:
+    src: mackerel-co2monitoring.sh
+    dest: /opt/co2sensor/
+    mode: 0755
+
+- name: mackerel-agent conf
+  lineinfile: dest=/etc/mackerel-agent/mackerel-agent.conf
+    line='{{ item.line }}'
+    regexp='{{ item.regexp }}'
+  with_items:
+    - { line: '[plugin.metrics.co2]', regexp: '^\[plugin.metrics.co2\]' }
+    - {
+        line: 'command = "/opt/co2sensor/mackerel-co2monitoring.sh"',
+        regexp: '^command = "/opt/co2sensor/mackerel-co2monitoring.sh"',
+      }
+  notify: restart mackerel-agent
