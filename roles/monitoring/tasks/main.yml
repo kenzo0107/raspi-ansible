@@ -2,17 +2,62 @@
 - name: include secret vars
   include_vars: secret.yml
 
-- name: install mackerel-agent
-  shell: |
-    curl -O https://mackerel.io/file/agent/deb/mackerel-agent_latest.all.deb
-    dpkg -i mackerel-agent_latest.all.deb
-    curl -LOk https://github.com/mackerelio/mackerel-agent/releases/download/v0.42.3/mackerel-agent_linux_arm.tar.gz
-    tar zxf mackerel-agent_linux_arm.tar.gz
-    cp mackerel-agent_linux_arm/mackerel-agent /usr/bin
-  args:
-    creates: /etc/mackerel-agent/mackerel-agent.conf
+- name: stat /usr/bin/mackerel-agent
+  stat:
+    path: /usr/bin/mackerel-agent
+  register: mackerel_agent
 
-- name: mackerel-agent conf
+- name: stat /usr/local/bin/mackerel-agent
+  stat:
+    path: /usr/local/bin/mackerel-agent
+  register: usr_local_bin_mackerel_agent
+
+- name: download mackerel-agent.deb
+  get_url:
+    url: https://mackerel.io/file/agent/deb/mackerel-agent_latest.all.deb
+    dest: /tmp
+  when:
+    - not mackerel_agent.stat.exists
+    - not usr_local_bin_mackerel_agent.stat.exists
+
+- name: install mackerel-agent.deb
+  apt:
+    deb: /tmp/mackerel-agent_latest.all.deb
+    update_cache: yes
+  when:
+    - not mackerel_agent.stat.exists
+    - not usr_local_bin_mackerel_agent.stat.exists
+
+- name: remove mackerel-agent via apt install .dev
+  file:
+    path: /usr/local/bin/mackerel-agent
+    state: absent
+  when:
+    - usr_local_bin_mackerel_agent.stat.exists
+
+- name: download mackerel-agent_linux_arm.tar.gz
+  get_url:
+    url: https://github.com/mackerelio/mackerel-agent/releases/download/v0.42.3/mackerel-agent_linux_arm.tar.gz
+    dest: /tmp
+  when:
+    - not mackerel_agent.stat.exists
+
+- name: unarchive /tmp/mackerel-agent_linux_arm.tar.gz
+  unarchive:
+    remote_src: yes
+    src: /tmp/mackerel-agent_linux_arm.tar.gz
+    dest: /tmp
+  when: not mackerel_agent.stat.exists
+
+- name: mv /tmp/mackerel-agent_linux_arm/mackerel-agent /usr/bin
+  copy:
+    remote_src: True
+    src: /tmp/mackerel-agent_linux_arm/mackerel-agent
+    dest: /usr/bin
+    mode: '0644'
+  when: not mackerel_agent.stat.exists
+
+- name: setup mackerel-agent.conf
   lineinfile: dest=/etc/mackerel-agent/mackerel-agent.conf
     line='{{ item.line }}'
     regexp='{{ item.regexp }}'
