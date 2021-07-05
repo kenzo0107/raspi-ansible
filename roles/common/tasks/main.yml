@@ -1,13 +1,13 @@
 ---
 - name: set hostname
   hostname:
-    name: "{{ hostname }}"
+    name: '{{ hostname }}'
 
 - name: set /etc/hosts
   replace:
     path: /etc/hosts
     regexp: raspberrypi
-    replace: "{{ hostname }}"
+    replace: '{{ hostname }}'
 
 - name: add authorized_key
   authorized_key:
@@ -31,7 +31,8 @@
     opts: defaults,size=32m,noatime,mode=1777
     state: present
 
-- debug: var=ansible_swaptotal_mb
+- name: show ansible_swaptotal_mb
+  debug: var=ansible_swaptotal_mb
 
 # 'swap' turn off because swap put a strain on SD card.
 - name: Disable swap
