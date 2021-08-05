@@ -5,6 +5,7 @@
     path: /boot/config.txt
     line: enable_uart=1
     create: yes
+    mode: 0644
 
 - name: pip install packages
   pip:
@@ -15,6 +16,7 @@
   file:
     path: /opt/co2sensor
     state: directory
+    mode: 0755
 
 - name: mackerel co2 plugin
   copy:
