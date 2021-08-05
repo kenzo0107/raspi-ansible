@@ -68,7 +68,7 @@ ssh_args = -F ssh_config
 
 ## run ansible-playbook after set up private key
 
-```
+```console
 // dry-run
 $ ansible-playbook raspberrypi.yml -C
 

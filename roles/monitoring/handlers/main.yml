@@ -3,3 +3,4 @@
   service:
     name: mackerel-agent
     state: restarted
+    enabled: yes
