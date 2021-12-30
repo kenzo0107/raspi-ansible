@@ -6,3 +6,5 @@
     - ssh
     - nodejs
     - monitoring
+    - co2sensor
+    - co2lcd
