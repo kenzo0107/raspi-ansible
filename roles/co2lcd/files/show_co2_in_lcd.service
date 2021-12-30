@@ -1,0 +1,11 @@
+[Unit]
+Description = show co2 in lcd
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/show_co2_in_lcd.py
+Restart=on-failure
+
+[Install]
+WantedBy = multi-user.target

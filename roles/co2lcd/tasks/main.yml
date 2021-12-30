@@ -1,0 +1,32 @@
+- name: Install the apt packages for connecting to lcd
+  apt:
+    name:
+      - libopenjp2-7
+      - libtiff5
+      - fonts-noto-cjk
+
+- name: pip install packages
+  pip:
+    name:
+      - adafruit-blinka
+      - pillow
+      - adafruit-circuitpython-ssd1306
+
+- name: copy show_co2_in_lcd.py
+  copy:
+    src: show_co2_in_lcd.py
+    dest: show_co2_in_lcd.py
+    backup: no
+    mode: 0755
+
+- name: copy systemd file
+  copy:
+    src: show_co2_in_lcd.service
+    dest: /etc/systemd/system/show_co2_in_lcd.service
+    mode: 0644
+
+- name: enable show_co2_in_lcd.service
+  systemd:
+    name: show_co2_in_lcd
+    enabled: yes
+    state: started
