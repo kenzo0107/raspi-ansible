@@ -49,6 +49,7 @@
     enabled: no
     state: stopped
 
+# disable mail.log, daemon.log etc...
 - name: copy rsyslog.conf
   copy:
     src: rsyslog.conf
@@ -57,3 +58,14 @@
     owner: root
     group: root
     mode: 0644
+
+- name: apt update & upgrade
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+# enable cgroup for docker
+- name: enable cgroup
+  lineinfile:
+    dest: /boot/cmdline.txt
+    line: 'cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1'
