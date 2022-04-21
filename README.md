@@ -5,6 +5,7 @@ This Ansible project provides initial setting for RaspberryPI.
 ## set inventory
 
 inventories/init
+
 ```bash
 [raspberrypi]
 raspberry.local
@@ -42,10 +43,10 @@ $ ansible-playbook -i inventories/init raspberrypi.yml --ask-pass -C
 $ ansible-playbook -i inventories/init raspberrypi.yml --ask-pass
 ```
 
-
 ## set ssh_config and ansible.cfg
 
-* ssh_config. ex:
+- ~/.ssh/config ex:
+
 ```
 Host my-raspberrypi-zero-wh
   User pi
@@ -56,14 +57,11 @@ Host my-raspberrypi-zero-wh
   UserKnownHostsFile /dev/null
 ```
 
-* ansible.cfg
+- ansible.cfg
 
 ```
 [defaults]
 interpreter_python=/usr/bin/python3 # pip コマンドを python3 で実行する
-
-[ssh_connection]
-ssh_args = -F ssh_config
 ```
 
 ## run ansible-playbook after set up private key

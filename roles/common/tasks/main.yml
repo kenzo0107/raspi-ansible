@@ -63,9 +63,3 @@
   apt:
     update_cache: yes
     upgrade: yes
-
-# enable cgroup for docker
-- name: enable cgroup
-  lineinfile:
-    dest: /boot/cmdline.txt
-    line: 'cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1'
